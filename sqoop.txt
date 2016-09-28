@@ -1,0 +1,89 @@
+cd /usr/lib/sqoop/bin
+
+
+
+http://sandbox.hortonworks.com:50070/
+
+
+[cloudera@quickstart ~]$ mysql -u root -p
+Enter password: 
+
+
+create database tutorials;
+
+
+CREATE TABLE pet(name VARCHAR(20), owner VARCHAR(20),species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+
+
+create table demo as select * from retail_db.customers;
+
+
+sqoop import \
+--m 1 \
+--connect jdbc:mysql://quickstart.cloudera:3306/tutorials \
+--username=root \
+--password=cloudera \
+--table demo \
+--warehouse-dir=/user/hive/warehouse
+
+
+
+
+sqoop import \
+--connect jdbc:mysql://quickstart.cloudera:3306/tutorials \
+--username root \
+--password=cloudera \
+--table demo --m 1
+
+
+
+
+sqoop import \
+--connect jdbc:mysql://quickstart.cloudera:3306/tutorials \
+--username root \
+--password cloudera \
+--table demo1 \
+--m 1 \
+--target-dir /queryresult
+
+
+
+
+$ sqoop import \
+--connect jdbc:mysql://quickstart.cloudera:3306/tutorials \
+--username root \
+--table demo1 \
+--m 1 \
+--where “city =’sec-bad’” \
+--target-dir /wherequery
+
+
+
+$ sqoop import-all-tables \
+--connect jdbc:mysql://quickstart.cloudera:3306/tutorials \
+--username root \
+--password cloudera
+
+
+1201, gopal,     manager, 50000, TP
+1202, manisha,   preader, 50000, TP
+1203, kalil,     php dev, 30000, AC
+1204, prasanth,  php dev, 30000, AC
+1205, kranthi,   admin,   20000, TP
+1206, satish p,  grp des, 20000, GR
+
+
+----in mysql----
+
+CREATE TABLE employee(id int not null primary key,name VARCHAR(20),deg VARCHAR(20),salary int,dept VARCHAR(10));
+   
+   
+sqoop export \
+--connect jdbc:mysql://quickstart.cloudera:3306/tutorials \
+--username root \
+--password cloudera \
+--table employee \
+--export-dir /employee
+
+
+mysql>select * from employee;
